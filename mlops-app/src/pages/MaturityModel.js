@@ -1,8 +1,57 @@
-import React, { useState } from 'react';
-import { Typography, Grid, Box, Card, CardContent, Modal } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Typography, Grid, Box, Card, CardContent, Modal, Paper } from '@mui/material';
+import { styled, keyframes } from '@mui/material/styles';
 import { motion } from 'framer-motion';
 
-const MotionCard = motion(Card);
+// Keyframes for animations
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const slideIn = keyframes`
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+`;
+
+// Styled components
+const MainContainer = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(4),
+  background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+  minHeight: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  animation: `${fadeIn} 1s ease-out`,
+}));
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(3),
+  marginBottom: theme.spacing(4),
+  background: 'rgba(255, 255, 255, 0.8)',
+  backdropFilter: 'blur(10px)',
+  borderRadius: '15px',
+  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+  border: '1px solid rgba(255, 255, 255, 0.18)',
+  transition: 'transform 0.3s ease-in-out',
+  '&:hover': {
+    transform: 'translateY(-5px)',
+  },
+}));
+
+const StyledCard = styled(Card)(({ theme }) => ({
+  background: 'rgba(255, 255, 255, 0.8)',
+  backdropFilter: 'blur(10px)',
+  borderRadius: '15px',
+  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+  border: '1px solid rgba(255, 255, 255, 0.18)',
+  transition: 'transform 0.3s ease-in-out',
+  cursor: 'pointer',
+  '&:hover': {
+    transform: 'translateY(-5px)',
+  },
+}));
+
+const MotionCard = motion(StyledCard);
 
 const maturityModels = {
   "Google MLOps Maturity Model": {
@@ -50,6 +99,11 @@ const maturityModels = {
 const MaturityModel = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedStage, setSelectedStage] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   const handleOpenModal = (model, stage) => {
     setSelectedStage(stage);
@@ -61,17 +115,29 @@ const MaturityModel = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 1200, margin: 'auto', py: 4 }}>
-      <Typography variant="h4" gutterBottom sx={{ mb: 4, color: '#333' }}>
-        MLOps Maturity Models
-      </Typography>
+    <MainContainer>
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0, y: 20 },
+          visible: { opacity: 1, y: 0 }
+        }}
+        transition={{ duration: 0.5 }}
+      >
+        <Typography variant="h3" gutterBottom align="center" sx={{ color: '#3498db', marginBottom: 4, fontWeight: 'bold' }}>
+          MLOps Maturity Models
+        </Typography>
+      </motion.div>
 
-      <img src="/mlops_mat_model.png" alt="MLOps maturity Models" style={{ width: '100%', maxWidth: 600, display: 'block', margin: 'auto' }} />
+      <StyledPaper elevation={3} sx={{ textAlign: 'center', marginBottom: 4 }}>
+        <img src="/mlops_mat_model.png" alt="MLOps Maturity Models" style={{ width: '100%', maxWidth: 600, display: 'block', margin: 'auto' }} />
+      </StyledPaper>
 
       <Grid container spacing={4}>
         {Object.entries(maturityModels).map(([model, { stages }], index) => (
           <Grid item xs={12} md={6} key={index}>
-            <Typography variant="h5" gutterBottom sx={{ color: '#3f51b5' }}>
+            <Typography variant="h5" gutterBottom sx={{ color: '#3498db', fontWeight: 'bold' }}>
               {model}
             </Typography>
             {stages.map((stage, stageIndex) => (
@@ -81,11 +147,11 @@ const MaturityModel = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: stageIndex * 0.1 }}
-                sx={{ mb: 2, cursor: 'pointer' }}
+                sx={{ mb: 2 }}
                 onClick={() => handleOpenModal(model, stage)}
               >
                 <CardContent>
-                  <Typography variant="h6">{stage.name}</Typography>
+                  <Typography variant="h6" sx={{ color: '#2c3e50' }}>{stage.name}</Typography>
                   <Typography variant="body2" color="text.secondary">
                     {stage.description.substring(0, 100)}...
                   </Typography>
@@ -115,16 +181,18 @@ const MaturityModel = () => {
           p: 4,
           borderRadius: 2,
           overflow: 'auto',
+          background: 'rgba(255, 255, 255, 0.9)',
+          backdropFilter: 'blur(10px)',
         }}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" gutterBottom>
+          <Typography id="modal-modal-title" variant="h6" component="h2" gutterBottom sx={{ color: '#3498db' }}>
             {selectedStage?.name}
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography id="modal-modal-description" sx={{ mt: 2, color: '#34495e' }}>
             {selectedStage?.description}
           </Typography>
         </Box>
       </Modal>
-    </Box>
+    </MainContainer>
   );
 };
 

@@ -12,7 +12,7 @@ const Sidebar = () => {
   const menuItems = [
     { text: 'Home', icon: <HomeIcon />, path: '/' },
     { text: 'Components', icon: <BuildIcon />, path: '/components' },
-    { text: 'Roles', icon: <PeopleIcon />, path: '/roles' },
+    //{ text: 'Roles', icon: <PeopleIcon />, path: '/roles' },
     { text: 'Tools', icon: <BarChartIcon />, path: '/tools' },
     { text: 'Maturity Model', icon: <SchoolIcon />, path: '/maturity-model' },
     { text: 'Reference Architecture', icon: <SchoolIcon />, path: '/reference-architecture' },

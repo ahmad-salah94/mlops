@@ -1,9 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography, Paper, Grid, Box, Card, CardContent, Modal } from '@mui/material';
+import { styled, keyframes } from '@mui/material/styles';
 import { motion } from 'framer-motion';
 
-const MotionPaper = motion(Paper);
-const MotionCard = motion(Card);
+// Keyframes for animations
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const slideIn = keyframes`
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+`;
+
+// Styled components
+const MainContainer = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(4),
+  background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+  minHeight: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  animation: `${fadeIn} 1s ease-out`,
+}));
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(3),
+  marginBottom: theme.spacing(4),
+  background: 'rgba(255, 255, 255, 0.8)',
+  backdropFilter: 'blur(10px)',
+  borderRadius: '15px',
+  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+  border: '1px solid rgba(255, 255, 255, 0.18)',
+  transition: 'transform 0.3s ease-in-out',
+  '&:hover': {
+    transform: 'translateY(-5px)',
+  },
+}));
+
+const StyledCard = styled(Card)(({ theme }) => ({
+  background: 'rgba(255, 255, 255, 0.8)',
+  backdropFilter: 'blur(10px)',
+  borderRadius: '15px',
+  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+  border: '1px solid rgba(255, 255, 255, 0.18)',
+  transition: 'transform 0.3s ease-in-out',
+  cursor: 'pointer',
+  '&:hover': {
+    transform: 'translateY(-5px)',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  },
+}));
+
+const MotionPaper = motion(StyledPaper);
+const MotionCard = motion(StyledCard);
 
 const principlesData = {
   "Reproducibility": "Reproducibility is at the core of MLOps. It refers to the ability to repeat ML experiments or ML models under the same conditions with identical results. This is crucial for ensuring the reliability and fairness of ML systems. Reproducibility is achieved through consistent versioning and careful experiment management, facilitating debugging, model performance evaluation, and the transfer of models into production. A reproducible ML system promotes confidence in the results and in the decisions made based on these models. Furthermore, reproducibility forms the basis for scaling and automating workflows throughout the lifecycle of ML models.",
@@ -20,6 +70,11 @@ const principlesData = {
 const Home = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedPrinciple, setSelectedPrinciple] = useState('');
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   const handleOpenModal = (principle) => {
     setSelectedPrinciple(principle);
@@ -31,29 +86,37 @@ const Home = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 1200, margin: 'auto' }}>
+    <MainContainer>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <img src="/sprinteins_logo.png" alt="Sprinteins Logo" height="50" />
         <img src="/reutlingen_hochschule_logo.png" alt="Reutlingen Hochschule Logo" height="50" />
       </Box>
 
-      <Typography variant="h4" gutterBottom sx={{ mb: 4, color: '#333' }}>
-        Welcome to MLOps
-      </Typography>
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0, y: 20 },
+          visible: { opacity: 1, y: 0 }
+        }}
+        transition={{ duration: 0.5 }}
+      >
+        <Typography variant="h3" gutterBottom align="center" sx={{ color: '#3498db', marginBottom: 4, fontWeight: 'bold' }}>
+          Welcome to MLOps
+        </Typography>
+      </motion.div>
 
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <MotionPaper
-            elevation={2}
-            sx={{ p: 3 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Typography variant="h6" gutterBottom sx={{ color: '#3f51b5' }}>
+            <Typography variant="h5" gutterBottom sx={{ color: '#3498db' }}>
               What is MLOps?
             </Typography>
-            <Typography variant="body1" sx={{ color: '#555' }}>
+            <Typography variant="body1" sx={{ color: '#34495e' }}>
               MLOps (Machine Learning Operations) is a set of practices that aims to deploy and maintain machine learning models in production reliably and efficiently. It combines machine learning, DevOps, and data engineering to streamline the machine learning lifecycle.
             </Typography>
           </MotionPaper>
@@ -61,31 +124,29 @@ const Home = () => {
 
         <Grid item xs={12}>
           <MotionPaper
-            elevation={2}
-            sx={{ p: 3 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <Typography variant="h6" gutterBottom sx={{ color: '#3f51b5' }}>
+            <Typography variant="h5" gutterBottom sx={{ color: '#3498db' }}>
               MLOps Lifecycle
             </Typography>
-            <img src="/mlops_lifecycle.png" alt="MLOps Lifecycle" style={{ width: '100%', maxWidth: 600, display: 'block', margin: 'auto' }} />
+            <Box sx={{ textAlign: 'center' }}>
+              <img src="/mlops_lifecycle.png" alt="MLOps Lifecycle" style={{ width: '100%', maxWidth: 600, display: 'block', margin: 'auto' }} />
+            </Box>
           </MotionPaper>
         </Grid>
 
         <Grid item xs={12}>
           <MotionPaper
-            elevation={2}
-            sx={{ p: 3 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <Typography variant="h6" gutterBottom sx={{ color: '#3f51b5' }}>
+            <Typography variant="h5" gutterBottom sx={{ color: '#3498db' }}>
               Historical Development
             </Typography>
-            <Typography variant="body1" sx={{ color: '#555', mb: 2 }}>
+            <Typography variant="body1" sx={{ color: '#34495e', mb: 2 }}>
               The evolution from traditional software development to MLOps has been driven by the unique challenges posed by machine learning systems.
             </Typography>
             <Grid container spacing={2}>
@@ -96,14 +157,13 @@ const Home = () => {
               ].map((item, index) => (
                 <Grid item xs={12} md={4} key={index}>
                   <MotionCard
-                    elevation={1}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.6 + (index * 0.1) }}
                   >
                     <CardContent>
-                      <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 1 }}>{item.title}</Typography>
-                      <Typography variant="body2">{item.content}</Typography>
+                      <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 1, color: '#2c3e50' }}>{item.title}</Typography>
+                      <Typography variant="body2" sx={{ color: '#34495e' }}>{item.content}</Typography>
                     </CardContent>
                   </MotionCard>
                 </Grid>
@@ -113,49 +173,35 @@ const Home = () => {
         </Grid>
 
         <Grid item xs={12}>
-        <Box sx={{ maxWidth: 1200, margin: 'auto' }}>
-      {/* ... (previous code remains the same) ... */}
-
-      <Grid item xs={12}>
-        <MotionPaper
-          elevation={2}
-          sx={{ p: 3 }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-        >
-          <Typography variant="h6" gutterBottom sx={{ color: '#3f51b5' }}>
-            MLOps Principles
-          </Typography>
-          <Typography variant="body1" sx={{ color: '#555', mb: 2 }}>
-            MLOps is guided by several key principles that ensure efficient and reliable machine learning operations:
-          </Typography>
-          <Grid container spacing={2}>
-            {Object.keys(principlesData).map((principle, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                <MotionCard
-                  elevation={1}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 1 + (index * 0.1) }}
-                  onClick={() => handleOpenModal(principle)}
-                  sx={{ 
-                    cursor: 'pointer', 
-                    '&:hover': { 
-                      backgroundColor: '#f0f0f0',
-                      transform: 'translateY(-5px)',
-                      transition: 'all 0.3s ease-in-out'
-                    } 
-                  }}
-                >
-                  <CardContent>
-                    <Typography variant="subtitle1">{principle}</Typography>
-                  </CardContent>
-                </MotionCard>
-              </Grid>
-            ))}
-          </Grid>
-        </MotionPaper>
+          <MotionPaper
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+          >
+            <Typography variant="h5" gutterBottom sx={{ color: '#3498db' }}>
+              MLOps Principles
+            </Typography>
+            <Typography variant="body1" sx={{ color: '#34495e', mb: 2 }}>
+              MLOps is guided by several key principles that ensure efficient and reliable machine learning operations:
+            </Typography>
+            <Grid container spacing={2}>
+              {Object.keys(principlesData).map((principle, index) => (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <MotionCard
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 1 + (index * 0.1) }}
+                    onClick={() => handleOpenModal(principle)}
+                  >
+                    <CardContent>
+                      <Typography variant="subtitle1" sx={{ color: '#2c3e50' }}>{principle}</Typography>
+                    </CardContent>
+                  </MotionCard>
+                </Grid>
+              ))}
+            </Grid>
+          </MotionPaper>
+        </Grid>
       </Grid>
 
       <Modal
@@ -171,23 +217,24 @@ const Home = () => {
           transform: 'translate(-50%, -50%)',
           width: '80%',
           maxWidth: 600,
+          maxHeight: '80vh',
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
           borderRadius: 2,
+          overflow: 'auto',
+          background: 'rgba(255, 255, 255, 0.9)',
+          backdropFilter: 'blur(10px)',
         }}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" gutterBottom>
+          <Typography id="modal-modal-title" variant="h6" component="h2" gutterBottom sx={{ color: '#3498db' }}>
             {selectedPrinciple}
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography id="modal-modal-description" sx={{ mt: 2, color: '#34495e' }}>
             {principlesData[selectedPrinciple]}
           </Typography>
         </Box>
       </Modal>
-    </Box>
-        </Grid>
-      </Grid>
-    </Box>
+    </MainContainer>
   );
 };
 

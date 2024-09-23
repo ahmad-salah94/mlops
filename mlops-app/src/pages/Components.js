@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography, Grid, Box, Card, CardContent, Modal, Avatar } from '@mui/material';
+import { styled, keyframes } from '@mui/material/styles';
 import { motion } from 'framer-motion';
 import StorageIcon from '@mui/icons-material/Storage';
 import DataObjectIcon from '@mui/icons-material/DataObject';
@@ -12,7 +13,45 @@ import CloudQueueIcon from '@mui/icons-material/CloudQueue';
 import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
 import CategoryIcon from '@mui/icons-material/Category';
 
-const MotionCard = motion(Card);
+// Keyframes for animations
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const slideIn = keyframes`
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+`;
+
+// Styled components
+const MainContainer = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(4),
+  background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+  minHeight: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  animation: `${fadeIn} 1s ease-out`,
+}));
+
+const StyledCard = styled(Card)(({ theme }) => ({
+  background: 'rgba(255, 255, 255, 0.8)',
+  backdropFilter: 'blur(10px)',
+  borderRadius: '15px',
+  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+  border: '1px solid rgba(255, 255, 255, 0.18)',
+  transition: 'transform 0.3s ease-in-out',
+  cursor: 'pointer',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  '&:hover': {
+    transform: 'translateY(-5px)',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  },
+}));
+
+const MotionCard = motion(StyledCard);
 
 const componentsData = {
   "Data Versioning": {
@@ -60,6 +99,11 @@ const componentsData = {
 const Components = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedComponent, setSelectedComponent] = useState('');
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   const handleOpenModal = (component) => {
     setSelectedComponent(component);
@@ -71,18 +115,24 @@ const Components = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 1200, margin: 'auto', py: 4 }}>
-      {/* Add the image or figure element here */}
-
-      <Typography variant="h4" gutterBottom sx={{ mb: 4, color: '#333' }}>
-        MLOps Components
-      </Typography>
-
+    <MainContainer>
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0, y: 20 },
+          visible: { opacity: 1, y: 0 }
+        }}
+        transition={{ duration: 0.5 }}
+      >
+        <Typography variant="h3" gutterBottom align="center" sx={{ color: '#3498db', marginBottom: 4, fontWeight: 'bold' }}>
+          MLOps Components
+        </Typography>
+      </motion.div>
 
       <Box sx={{ textAlign: 'center', mb: 4 }}>
-      <img src="/mlops_components.png" alt="MLOps Lifecycle" style={{ width: '100%', maxWidth: 600, display: 'block', margin: 'auto' }} />
+        <img src="/mlops_components.png" alt="MLOps Components" style={{ width: '100%', maxWidth: 600, display: 'block', margin: 'auto' }} />
       </Box>
-
 
       <Grid container spacing={3}>
         {Object.entries(componentsData).map(([component, { icon, description }], index) => (
@@ -93,23 +143,12 @@ const Components = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               onClick={() => handleOpenModal(component)}
-              sx={{ 
-                cursor: 'pointer', 
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                '&:hover': { 
-                  backgroundColor: '#f0f0f0',
-                  transform: 'translateY(-5px)',
-                  transition: 'all 0.3s ease-in-out'
-                } 
-              }}
             >
               <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <Avatar sx={{ bgcolor: '#3f51b5', mb: 2 }}>
+                <Avatar sx={{ bgcolor: '#3498db', mb: 2, width: 56, height: 56 }}>
                   {icon}
                 </Avatar>
-                <Typography variant="h6" component="div" align="center">
+                <Typography variant="h6" component="div" align="center" sx={{ color: '#2c3e50' }}>
                   {component}
                 </Typography>
               </CardContent>
@@ -137,16 +176,18 @@ const Components = () => {
           p: 4,
           borderRadius: 2,
           overflow: 'auto',
+          background: 'rgba(255, 255, 255, 0.9)',
+          backdropFilter: 'blur(10px)',
         }}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" gutterBottom>
+          <Typography id="modal-modal-title" variant="h6" component="h2" gutterBottom sx={{ color: '#3498db' }}>
             {selectedComponent}
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography id="modal-modal-description" sx={{ mt: 2, color: '#34495e' }}>
             {componentsData[selectedComponent]?.description}
           </Typography>
         </Box>
       </Modal>
-    </Box>
+    </MainContainer>
   );
 };
 
