@@ -11,7 +11,60 @@ import MaturityModel from './pages/MaturityModel';
 import ReferenceArchitecture from './pages/ReferenceArchitecture';
 
 const theme = createTheme({
-  // ... (keep your existing theme configuration)
+  palette: {
+    primary: {
+      main: '#1a73e8',  // Google blue
+      light: '#4285f4',
+      dark: '#1557b0'
+    },
+    secondary: {
+      main: '#202124',  // Google grey
+      light: '#5f6368',
+      dark: '#000000'
+    },
+    background: {
+      default: '#f8f9fa',
+      paper: '#ffffff'
+    }
+  },
+  typography: {
+    fontFamily: 'Inter, sans-serif',
+    h3: {
+      fontWeight: 600,
+      letterSpacing: '-0.5px'
+    },
+    h4: {
+      fontWeight: 500
+    },
+    h5: {
+      fontWeight: 500
+    },
+    h6: {
+      fontWeight: 500
+    }
+  },
+  shape: {
+    borderRadius: 8
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          borderRadius: 8,
+          padding: '8px 16px'
+        }
+      }
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 12,
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.04)'
+        }
+      }
+    }
+  }
 });
 
 const pageVariants = {
@@ -45,21 +98,26 @@ const PageWrapper = ({ children }) => {
 };
 
 function App() {
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ 
+          display: 'flex',
+          minHeight: '100vh',
+          backgroundColor: '#f5f7fa'
+        }}>
           <Sidebar />
           <Box 
             component="main" 
             sx={{ 
-              flexGrow: 1, 
-              p: 3, 
-              width: '100%',
+              flexGrow: 1,
+              p: { xs: 2, md: 3 }, // Reduced padding
+              width: { md: `calc(100% - 240px)` }, // Ensure correct width calculation
               ml: { md: '240px' },
-              mt: { xs: 7, md: 0 } // Add top margin for mobile to account for hamburger menu
+              mt: { xs: 7, md: 0 },
+              maxWidth: '1400px', // Add maximum width
+              margin: '0 auto'    // Center content
             }}
           >
             <Routes>
