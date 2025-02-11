@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Typography, Grid, Box, Card, CardContent, Modal, Avatar } from '@mui/material';
 import { styled, keyframes } from '@mui/material/styles';
 import { motion } from 'framer-motion';
@@ -19,10 +19,6 @@ const fadeIn = keyframes`
   to { opacity: 1; }
 `;
 
-const slideIn = keyframes`
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-`;
 
 // Styled components
 const MainContainer = styled(Box)(({ theme }) => ({
@@ -99,11 +95,6 @@ const componentsData = {
 const Components = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedComponent, setSelectedComponent] = useState('');
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
 
   const handleOpenModal = (component) => {
     setSelectedComponent(component);

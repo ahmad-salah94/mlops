@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { 
   Typography, 
   Box, 
@@ -6,7 +5,6 @@ import {
   List, 
   ListItem, 
   ListItemText, 
-  Divider, 
   Accordion, 
   AccordionSummary, 
   AccordionDetails,
@@ -20,17 +18,11 @@ import {
 import { styled, keyframes } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { motion } from 'framer-motion';
-import ImageZoom from 'react-medium-image-zoom'; // Import for image zoom
 
 // Keyframes for animations
 const fadeIn = keyframes`
   from { opacity: 0; }
   to { opacity: 1; }
-`;
-
-const slideIn = keyframes`
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
 `;
 
 // Styled components
@@ -85,11 +77,7 @@ const StyledList = styled(List)(({ theme }) => ({
 }));
 
 const MLOpsReferenceArchitecture = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
 
   const fadeInVariants = {
     hidden: { opacity: 0, y: 20 },

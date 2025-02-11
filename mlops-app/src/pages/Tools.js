@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   Typography, 
   Grid, 
@@ -20,10 +20,6 @@ const fadeIn = keyframes`
   to { opacity: 1; }
 `;
 
-const slideIn = keyframes`
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-`;
 
 // Styled components
 const MainContainer = styled(Box)(({ theme }) => ({
@@ -118,11 +114,7 @@ const Tools = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedTool, setSelectedTool] = useState('');
   const [currentTab, setCurrentTab] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
 
   const handleOpenModal = (tool) => {
     setSelectedTool(tool);
