@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import { Box, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { Box, CssBaseline, ThemeProvider, createTheme, useMediaQuery } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
 import Sidebar from './components/Sidebar';
 import Home from './pages/Home';
@@ -45,13 +45,24 @@ const PageWrapper = ({ children }) => {
 };
 
 function App() {
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
         <Box sx={{ display: 'flex' }}>
           <Sidebar />
-          <Box component="main" sx={{ flexGrow: 1, p: 3, ml: '240px' }}>
+          <Box 
+            component="main" 
+            sx={{ 
+              flexGrow: 1, 
+              p: 3, 
+              width: '100%',
+              ml: { md: '240px' },
+              mt: { xs: 7, md: 0 } // Add top margin for mobile to account for hamburger menu
+            }}
+          >
             <Routes>
               <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
               <Route path="/components" element={<PageWrapper><Components /></PageWrapper>} />
