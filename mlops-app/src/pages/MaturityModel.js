@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Typography, Grid, Box, Card, CardContent, Modal, Paper } from '@mui/material';
 import { styled, keyframes } from '@mui/material/styles';
 import { motion } from 'framer-motion';
+import { maturityModels } from '../data';
+
 
 // Keyframes for animations
 const fadeIn = keyframes`
@@ -49,48 +51,6 @@ const StyledCard = styled(Card)(({ theme }) => ({
 
 const MotionCard = motion(StyledCard);
 
-const maturityModels = {
-  "Google MLOps Maturity Model": {
-    stages: [
-      {
-        name: "Stage 0: Manual Process",
-        description: "Reflects a traditional approach in data science, heavily relying on manual, script-driven, and interactive processes. All steps from data analysis to model validation are performed manually."
-      },
-      {
-        name: "Stage 1: ML Pipeline Automation",
-        description: "Focus on automating the ML pipeline. This marks a fundamental transformation from manual to a systematic approach. Continuous Training (CT) is implemented, creating the foundation for rapid and iterative development cycles."
-      },
-      {
-        name: "Stage 2: CI/CD Pipeline Automation",
-        description: "Encompasses full automation of CI/CD processes. This stage marks the transition to a highly developed MLOps approach, where the entire ML pipeline from development through testing to production is automated."
-      }
-    ]
-  },
-  "Microsoft MLOps Maturity Model": {
-    stages: [
-      {
-        name: "Stage 0: No MLOps",
-        description: "No specialized data science teams. ML projects are rare and not integrated into the general business strategy. Data processing occurs in isolated silos, and there's a lack of integration of required data for ML."
-      },
-      {
-        name: "Stage 1: DevOps but no MLOps",
-        description: "Companies use automated DevOps pipelines to support software development. However, the ML model is still manually managed within applications."
-      },
-      {
-        name: "Stage 2: Automated Training",
-        description: "Establishment of centralized model management and automated training pipelines improves consistency and reuse of models. There's beginning coordination between data science and engineering teams."
-      },
-      {
-        name: "Stage 3: Automated Model Deployment",
-        description: "Model tests are automated and deployment to the production environment is enabled. This achieves closer integration between the ML model lifecycle and production processes."
-      },
-      {
-        name: "Stage 4: Full MLOps Automated Operations",
-        description: "All operations around ML models are fully automated. This includes initial and repeated training, deployment, and monitoring. Advanced monitoring mechanisms continuously check model performance."
-      }
-    ]
-  }
-};
 
 const MaturityModel = () => {
   const [openModal, setOpenModal] = useState(false);

@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { styled, keyframes } from '@mui/material/styles';
 import { motion } from 'framer-motion';
+import { toolsData } from '../data';
 
 // Keyframes for animations
 const fadeIn = keyframes`
@@ -61,54 +62,6 @@ const StyledCard = styled(Card)(({ theme }) => ({
 }));
 
 const MotionCard = motion(StyledCard);
-
-const toolsData = {
-  "Specialized Open-Source MLOps Tools": {
-    description: "These tools focus on specific functions within the ML lifecycle. While they don't offer the breadth of functionality that end-to-end platforms do, they are often more powerful in their specialized areas.",
-    advantages: [
-      "Flexibility and modularity",
-      "Open-source cost efficiency",
-      "Customization and transparency",
-      "Active developer community support"
-    ],
-    disadvantages: [
-      "Limited MLOps coverage",
-      "Integration complexity",
-      "Potential stability issues",
-      "Higher maintenance and scalability challenges"
-    ]
-  },
-  "Open-Source End-to-End MLOps Platforms": {
-    description: "These platforms offer a comprehensive solution for managing the entire ML lifecycle, consolidating numerous MLOps functions under one roof.",
-    advantages: [
-      "Comprehensive MLOps coverage",
-      "Open-source cost efficiency",
-      "Flexibility and modularity",
-      "Potential for on-premises hosting"
-    ],
-    disadvantages: [
-      "Potential reliability and stability issues",
-      "Steeper learning curve",
-      "Higher initial configuration complexity",
-      "Dependency on a single platform"
-    ]
-  },
-  "Commercial End-to-End MLOps Platforms": {
-    description: "These platforms offer a comprehensive, cloud-based solution covering all aspects of the MLOps lifecycle, simplifying the process of developing, deploying, and scaling ML models.",
-    advantages: [
-      "Comprehensive MLOps coverage",
-      "High reliability and stability",
-      "Professional support and SLAs",
-      "Lower maintenance overhead and easier scalability"
-    ],
-    disadvantages: [
-      "Higher costs compared to open-source solutions",
-      "Potential vendor lock-in",
-      "Limited flexibility for customization",
-      "Potential data security concerns with cloud-based solutions"
-    ]
-  }
-};
 
 const Tools = () => {
   const [openModal, setOpenModal] = useState(false);
